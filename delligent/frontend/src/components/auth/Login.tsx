@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Login: React.FC = () => {
@@ -8,6 +9,7 @@ const Login: React.FC = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const { signIn, signUp } = useAuth();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -15,13 +17,22 @@ const Login: React.FC = () => {
         setLoading(true);
 
         try {
+            console.log('Attempting to sign in with:', email);
             if (isSignUp) {
                 await signUp(email, password);
+                console.log('Sign up successful');
             } else {
                 await signIn(email, password);
+                console.log('Sign in successful');
             }
+            // Navigate to dashboard after successful authentication
+            navigate('/dashboard');
         } catch (err: any) {
-            setError(err.message || 'Authentication failed');
+            console.error('Authentication error:', err);
+            const errorMessage = err.code
+                ? `${err.code}: ${err.message}`
+                : (err.message || 'Authentication failed');
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }

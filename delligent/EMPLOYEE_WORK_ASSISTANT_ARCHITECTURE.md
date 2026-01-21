@@ -1239,9 +1239,9 @@ npx shadcn-ui@latest add button input card dialog
 
 ```bash
 # backend/.env
-FIREBASE_PROJECT_ID=your-project-id
-FIREBASE_PRIVATE_KEY=your-private-key
-FIREBASE_CLIENT_EMAIL=your-client-email
+FIREBASE_PROJECT_ID=delligent-8f6a2
+FIREBASE_PRIVATE_KEY=your-private-key-from-service-account
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@delligent-8f6a2.iam.gserviceaccount.com
 
 OPENAI_API_KEY=sk-your-openai-key
 
@@ -1256,12 +1256,13 @@ LOG_LEVEL=INFO
 
 ```bash
 # frontend/.env
-VITE_FIREBASE_API_KEY=your-api-key
-VITE_FIREBASE_AUTH_DOMAIN=your-app.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your-project-id
-VITE_FIREBASE_STORAGE_BUCKET=your-app.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=123456789
-VITE_FIREBASE_APP_ID=1:123456789:web:abcdef
+VITE_FIREBASE_API_KEY=AIzaSyA8OfLAIDxgSsZ7ZzOCd7EFaDaDvi_SmjY
+VITE_FIREBASE_AUTH_DOMAIN=delligent-8f6a2.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=delligent-8f6a2
+VITE_FIREBASE_STORAGE_BUCKET=delligent-8f6a2.firebasestorage.app
+VITE_FIREBASE_MESSAGING_SENDER_ID=923464161547
+VITE_FIREBASE_APP_ID=1:923464161547:web:42e2c0121e1ec901046a0e
+VITE_FIREBASE_MEASUREMENT_ID=G-L26VRZ15TG
 
 VITE_API_BASE_URL=http://localhost:8000
 ```
@@ -1275,6 +1276,7 @@ VITE_API_BASE_URL=http://localhost:8000
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -1282,12 +1284,15 @@ const firebaseConfig = {
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export const analytics = getAnalytics(app);
 ```
 
 #### **Initialize Firebase Admin (Backend)**
