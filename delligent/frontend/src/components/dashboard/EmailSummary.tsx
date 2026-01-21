@@ -38,24 +38,33 @@ const EmailSummary: React.FC = () => {
     const getPriorityColor = (priority: string) => {
         switch (priority) {
             case 'high':
-                return 'bg-red-100 text-red-800 border-red-200';
+                return 'bg-gradient-to-r from-red-500 to-pink-500 text-white';
             case 'medium':
-                return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+                return 'bg-gradient-to-r from-yellow-500 to-orange-500 text-white';
             default:
-                return 'bg-green-100 text-green-800 border-green-200';
+                return 'bg-gradient-to-r from-green-500 to-emerald-500 text-white';
+        }
+    };
+
+    const getPriorityIcon = (priority: string) => {
+        switch (priority) {
+            case 'high':
+                return '🔥';
+            case 'medium':
+                return '⚡';
+            default:
+                return '✅';
         }
     };
 
     if (loading) {
         return (
-            <div className="bg-white rounded-lg shadow p-6">
-                <div className="animate-pulse space-y-4">
-                    <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-                    <div className="space-y-3">
-                        {[1, 2, 3].map((i) => (
-                            <div key={i} className="h-20 bg-gray-100 rounded"></div>
-                        ))}
-                    </div>
+            <div className="glass-effect rounded-2xl p-6 animate-pulse">
+                <div className="h-6 bg-gradient-to-r from-gray-200 to-gray-300 rounded w-1/3 mb-4"></div>
+                <div className="space-y-3">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="h-24 bg-gradient-to-r from-gray-100 to-gray-200 rounded-xl"></div>
+                    ))}
                 </div>
             </div>
         );
@@ -63,63 +72,78 @@ const EmailSummary: React.FC = () => {
 
     if (error) {
         return (
-            <div className="bg-white rounded-lg shadow p-6">
-                <div className="text-red-600">Error: {error}</div>
+            <div className="glass-effect rounded-2xl p-6 animate-scale-in">
+                <div className="text-red-600 flex items-center space-x-2">
+                    <span className="text-2xl">⚠️</span>
+                    <span>Error: {error}</span>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="bg-white rounded-lg shadow">
-            <div className="px-6 py-4 border-b border-gray-200">
-                <h2 className="text-xl font-semibold text-gray-900">Recent Emails</h2>
+        <div className="glass-effect rounded-2xl overflow-hidden shadow-xl animate-scale-in">
+            <div className="px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+                <div className="flex items-center space-x-2">
+                    <span className="text-2xl">📧</span>
+                    <h2 className="text-xl font-bold">Recent Emails</h2>
+                </div>
             </div>
 
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
                 {emails.length === 0 ? (
-                    <div className="p-6 text-center text-gray-500">
-                        No emails found
+                    <div className="p-8 text-center">
+                        <div className="text-6xl mb-4 animate-bounce">📭</div>
+                        <p className="text-gray-500 font-medium">No emails found</p>
                     </div>
                 ) : (
-                    emails.map((email) => (
+                    emails.map((email, index) => (
                         <div
                             key={email.emailId}
-                            className={`p-4 hover:bg-gray-50 transition ${!email.isRead ? 'bg-blue-50' : ''
+                            className={`p-4 hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-300 cursor-pointer group card-hover ${!email.isRead ? 'bg-blue-50/50' : ''
                                 }`}
+                            style={{ animationDelay: `${index * 0.05}s` }}
                         >
                             <div className="flex items-start justify-between">
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex items-center space-x-2 mb-1">
-                                        <h3 className="text-sm font-semibold text-gray-900 truncate">
+                                <div className="flex-1 min-w-0 space-y-2">
+                                    <div className="flex items-center space-x-2">
+                                        {!email.isRead && (
+                                            <div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div>
+                                        )}
+                                        <h3 className="text-sm font-bold text-gray-900 truncate group-hover:text-blue-600 transition-colors">
                                             {email.subject}
                                         </h3>
-                                        <span
-                                            className={`px-2 py-0.5 text-xs font-medium rounded-full border ${getPriorityColor(
-                                                email.priority
-                                            )}`}
-                                        >
+                                        <span className={`px-2 py-1 text-xs font-bold rounded-full shadow-sm ${getPriorityColor(email.priority)}`}>
+                                            <span className="mr-1">{getPriorityIcon(email.priority)}</span>
                                             {email.priority}
                                         </span>
                                     </div>
-                                    <p className="text-sm text-gray-600 mb-1">
-                                        From: {email.sender.name} ({email.sender.email})
+                                    <p className="text-sm text-gray-600 flex items-center space-x-2">
+                                        <span className="font-semibold">{email.sender.name}</span>
+                                        <span className="text-gray-400">•</span>
+                                        <span className="text-gray-500">{email.sender.email}</span>
                                     </p>
                                     <p className="text-sm text-gray-500 line-clamp-2">
                                         {email.bodyPreview}
                                     </p>
-                                    <div className="flex items-center space-x-2 mt-2">
+                                    <div className="flex items-center flex-wrap gap-2">
                                         {email.labels.map((label) => (
                                             <span
                                                 key={label}
-                                                className="px-2 py-0.5 text-xs bg-gray-100 text-gray-700 rounded"
+                                                className="px-3 py-1 text-xs bg-gradient-to-r from-indigo-100 to-purple-100 text-indigo-700 rounded-full font-medium border border-indigo-200"
                                             >
-                                                {label}
+                                                #{label}
                                             </span>
                                         ))}
                                     </div>
                                 </div>
-                                <div className="ml-4 text-xs text-gray-500 whitespace-nowrap">
-                                    {new Date(email.receivedAt?.seconds * 1000 || email.receivedAt).toLocaleDateString()}
+                                <div className="ml-4 text-xs text-gray-500 whitespace-nowrap flex flex-col items-end space-y-1">
+                                    <span className="font-medium">
+                                        {new Date(email.receivedAt?.seconds * 1000 || email.receivedAt).toLocaleDateString()}
+                                    </span>
+                                    <span className="text-gray-400">
+                                        {new Date(email.receivedAt?.seconds * 1000 || email.receivedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    </span>
                                 </div>
                             </div>
                         </div>
