@@ -6,7 +6,8 @@ from app.config import settings
 app = FastAPI(
     title="Employee Work Assistant API",
     description="RAG-powered personal work assistant for employees",
-    version="1.0.0"
+    version="1.0.0",
+    redirect_slashes=False  # Disable automatic trailing slash redirects
 )
 
 # CORS configuration

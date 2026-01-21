@@ -5,6 +5,7 @@ from app.api.middleware.auth import get_current_user
 
 router = APIRouter()
 
+@router.post("", response_model=ChatResponse)
 @router.post("/", response_model=ChatResponse)
 async def chat(
     request: ChatRequest,

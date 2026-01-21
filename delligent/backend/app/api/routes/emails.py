@@ -5,6 +5,7 @@ from typing import List
 
 router = APIRouter()
 
+@router.get("")
 @router.get("/")
 async def get_emails(
     current_user: dict = Depends(get_current_user),

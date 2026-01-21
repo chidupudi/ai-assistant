@@ -25,26 +25,32 @@ class FirebaseService:
         return doc.to_dict() if doc.exists else None
     
     async def get_emails(
-        self, 
-        user_id: str, 
+        self,
+        user_id: str,
         filters: Optional[Dict] = None,
         limit: int = 10
     ) -> List[Dict]:
         """Get user emails with optional filters"""
         query = self.db.collection('emails').where('userId', '==', user_id)
-        
+
+        # For now, keep it simple to avoid composite index requirements
+        # We'll sort in Python instead of Firestore
         if filters:
             if filters.get('priority'):
                 query = query.where('priority', '==', filters['priority'])
-            if filters.get('time_range'):
-                time_range = filters['time_range']
-                if time_range.get('start'):
-                    query = query.where('receivedAt', '>=', time_range['start'])
-        
-        query = query.limit(limit).order_by('receivedAt', direction=firestore.Query.DESCENDING)
-        
+
+        query = query.limit(limit)
+
         docs = query.stream()
-        return [doc.to_dict() for doc in docs]
+        emails = [doc.to_dict() for doc in docs]
+
+        # Sort by receivedAt in Python
+        try:
+            emails.sort(key=lambda x: x.get('receivedAt', ''), reverse=True)
+        except:
+            pass
+
+        return emails
     
     async def get_tasks(
         self,
@@ -74,15 +80,26 @@ class FirebaseService:
     ) -> List[Dict]:
         """Get user calendar events"""
         query = self.db.collection('calendar_events').where('userId', '==', user_id)
-        
-        if start_time:
-            query = query.where('startTime', '>=', start_time)
-        if end_time:
-            query = query.where('startTime', '<=', end_time)
-        
-        query = query.limit(limit).order_by('startTime')
+
+        # Simplified query to avoid composite index
+        query = query.limit(limit)
+
         docs = query.stream()
-        return [doc.to_dict() for doc in docs]
+        events = [doc.to_dict() for doc in docs]
+
+        # Filter and sort in Python
+        if start_time:
+            events = [e for e in events if e.get('startTime', datetime.min) >= start_time]
+        if end_time:
+            events = [e for e in events if e.get('startTime', datetime.max) <= end_time]
+
+        # Sort by startTime
+        try:
+            events.sort(key=lambda x: x.get('startTime', datetime.min))
+        except:
+            pass
+
+        return events
     
     async def save_conversation(
         self,
