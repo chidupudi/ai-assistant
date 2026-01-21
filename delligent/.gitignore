@@ -1,0 +1,282 @@
+# ==========================================
+# Employee Work Assistant - .gitignore
+# ==========================================
+
+# ==========================================
+# SENSITIVE FILES - NEVER COMMIT THESE!
+# ==========================================
+
+# Firebase Service Account (CRITICAL - Contains private keys!)
+**/service-accnt.json
+**/*service-account*.json
+**/*serviceAccount*.json
+
+# Environment Variables (Contains API keys!)
+**/.env
+**/.env.local
+**/.env.*.local
+!**/.env.example
+
+# API Keys and Secrets
+**/*-key.json
+**/*-credentials.json
+**/secrets.json
+**/config.local.*
+
+# ==========================================
+# PYTHON / BACKEND
+# ==========================================
+
+# Virtual Environment
+backend/venv/
+backend/env/
+backend/.venv/
+**/venv/
+**/.venv/
+
+# Python Cache
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+**/*.so
+**/.Python
+
+# Distribution / Packaging
+backend/build/
+backend/develop-eggs/
+backend/dist/
+backend/downloads/
+backend/eggs/
+backend/.eggs/
+backend/lib/
+backend/lib64/
+backend/parts/
+backend/sdist/
+backend/var/
+backend/wheels/
+backend/*.egg-info/
+backend/.installed.cfg
+backend/*.egg
+
+# PyInstaller
+backend/*.manifest
+backend/*.spec
+
+# Unit test / coverage reports
+backend/htmlcov/
+backend/.tox/
+backend/.coverage
+backend/.coverage.*
+backend/.cache
+backend/nosetests.xml
+backend/coverage.xml
+backend/*.cover
+backend/.hypothesis/
+backend/.pytest_cache/
+
+# Jupyter Notebook
+backend/.ipynb_checkpoints
+
+# pyenv
+backend/.python-version
+
+# Celery
+backend/celerybeat-schedule
+backend/celerybeat.pid
+
+# SageMath parsed files
+backend/*.sage.py
+
+# Environments
+backend/.env
+backend/.venv
+backend/env/
+backend/venv/
+backend/ENV/
+backend/env.bak/
+backend/venv.bak/
+
+# Spyder project settings
+backend/.spyderproject
+backend/.spyproject
+
+# Rope project settings
+backend/.ropeproject
+
+# mkdocs documentation
+backend/site
+
+# mypy
+backend/.mypy_cache/
+backend/.dmypy.json
+backend/dmypy.json
+
+# Pyre type checker
+backend/.pyre/
+
+# ChromaDB / Vector Database (if using local storage)
+backend/chroma_db/
+backend/*.db
+backend/*.sqlite
+backend/*.sqlite3
+
+# Logs
+backend/logs/
+backend/*.log
+
+# ==========================================
+# NODE.JS / FRONTEND
+# ==========================================
+
+# Dependencies
+frontend/node_modules/
+frontend/.pnp
+frontend/.pnp.js
+
+# Testing
+frontend/coverage/
+
+# Production Build
+frontend/build/
+frontend/dist/
+frontend/.next/
+frontend/out/
+
+# Misc
+frontend/.DS_Store
+frontend/*.pem
+
+# Debug
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnpm-debug.log*
+
+# Local env files
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Vercel
+frontend/.vercel
+
+# Vite
+frontend/.vite/
+frontend/dist-ssr/
+frontend/*.local
+
+# TypeScript
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+
+# ==========================================
+# IDE / EDITOR
+# ==========================================
+
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# JetBrains IDEs (PyCharm, WebStorm, IntelliJ, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ==========================================
+# OPERATING SYSTEM
+# ==========================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ==========================================
+# PROJECT SPECIFIC
+# ==========================================
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# Documentation builds
+docs/_build/
+docs/.doctrees/
+
+# Data files (if you have large datasets)
+**/data/
+**/datasets/
+*.csv
+*.xlsx
+*.json.gz
+
+# Model files (if you cache ML models)
+**/models/
+*.pkl
+*.h5
+*.pt
+*.pth
+
+# ==========================================
+# KEEP THESE FILES (Examples/Templates)
+# ==========================================
+
+# Keep example environment files
+!.env.example
+!.env.sample
+!.env.template
+
+# Keep example configs
+!config.example.json
+!config.sample.json
+
+# Keep README and documentation
+!README.md
+!SETUP.md
+!*.md
